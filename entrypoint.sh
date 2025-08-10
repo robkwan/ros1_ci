@@ -28,8 +28,13 @@ until rostopic list | grep -q '/tortoisebot_as'; do sleep 1; done
 
 #Launch waypoint action server tests
 echo "$(date +'[%Y-%m-%d %T]') Starting waypoint action server..."
-rostest tortoisebot_waypoints waypoints_test.test --reuse-master &
+rostest tortoisebot_waypoints waypoints_test.test --reuse-master rostest tortoisebot_waypoints waypoints_test.test --reuse-master
+TEST_RESULT=$?
 
-# Keep the container running
-echo "$(date +'[%Y-%m-%d %T]') All services started. Keeping container alive..."
-tail -f /dev/null
+# Clean up background processes
+kill $WAYPOINT_PID $GAZEBO_PID
+wait $WAYPOINT_PID 2>/dev/null || true
+wait $GAZEBO_PID 2>/dev/null || true
+
+# Exit with the test result so Jenkins gets pass/fail correctly
+exit $TEST_RESULT
