@@ -45,7 +45,7 @@ WORKDIR /simulation_ws/
 ENV DISPLAY=:1
 ENV GAZEBO_MASTER_URI=${GAZEBO_MASTER_URI}
 ENV ROS_DOMAIN_ID=1
-ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+#ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 # We want /bin/bash to execute our /entrypoint.sh when container starts
 CMD ["/entrypoint.sh"]
