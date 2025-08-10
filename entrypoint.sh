@@ -25,8 +25,10 @@ until rostopic list | grep -q '/gazebo'; do sleep 1; done
 
 #Launch waypoint action server
 echo "$(date +'[%Y-%m-%d %T]') Starting waypoint action server..."
-rosrun tortoisebot_waypoints tortoisebot_action_server.py 
-#until rostopic list | grep -q '/tortoisebot_as'; do sleep 1; done
+rosrun tortoisebot_waypoints tortoisebot_action_server.py &
+AS_PID=$!
+
+until rostopic list | grep -q '/tortoisebot_as'; do sleep 1; done
 
 #Launch waypoint action server tests
 echo "$(date +'[%Y-%m-%d %T]') Starting waypoint action server..."
@@ -37,12 +39,14 @@ set -e
 
 echo " * RESULT: $( [ $TEST_RESULT -eq 0 ] && echo SUCCESS || echo FAILURE )"
 
-# --- Shutdown background process if started ---
-if [ -n "${BG_PID:-}" ]; then
-    echo "Stopping background process with PID $BG_PID"
-    kill "$BG_PID" 2>/dev/null || true
-    wait "$BG_PID" 2>/dev/null || true
-fi
+# Shutdown background processes
+for pid in ${AS_PID:-} ${BG_PID:-}; do
+    if [ -n "$pid" ]; then
+        echo "Stopping PID $pid"
+        kill "$pid" 2>/dev/null || true
+        wait "$pid" 2>/dev/null || true
+    fi
+done
 
 # --- Exit with the real test result ---
 exit $TEST_RESULT
