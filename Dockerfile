@@ -28,9 +28,9 @@ RUN source /opt/ros/noetic/setup.bash \
 # Copy your simulation package
 COPY tortoisebot /simulation_ws/src/tortoisebot
 COPY tortoisebot_waypoints /simulation_ws/src/tortoisebot_waypoints
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /simulation_ws/entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /simulation_ws/entrypoint.sh
 
 # Build the Colcon workspace and ensure it's sourced
 RUN source /opt/ros/noetic/setup.bash \
@@ -48,4 +48,4 @@ ENV ROS_DOMAIN_ID=1
 #ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 
 # We want /bin/bash to execute our /entrypoint.sh when container starts
-CMD ["/entrypoint.sh"]
+#CMD ["/entrypoint.sh"]

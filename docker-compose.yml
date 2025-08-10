@@ -24,4 +24,4 @@ services:
       - $HOME/simulation_ws/src/ros1_ci/tortoisebot/tortoisebot_gazebo/models:/models
       - $HOME/.Xauthority:/root/.Xauthority:rw
     #command: bash -c "source /opt/ros/noetic/setup.bash && source /ros2_ws/install/setup.bash && ros2 launch the_construct_office_gazebo warehouse_rb1.launch.xml"
-    #command: "entrypoint.sh"
+    entrypoint: "/simulation_ws/entrypoint.sh"
