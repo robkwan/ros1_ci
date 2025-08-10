@@ -19,16 +19,16 @@ roslaunch tortoisebot_gazebo tortoisebot_playground.launch
 #BG_PID=$!
 
 # Wait for services
-echo "[$(date '+%Y-%m-%d %T')] Waiting for services to initialize..."
-until rosnode list 2>/dev/null >/dev/null; do sleep 1; done
-until rostopic list | grep -q '/gazebo'; do sleep 1; done
+#echo "[$(date '+%Y-%m-%d %T')] Waiting for services to initialize..."
+#until rosnode list 2>/dev/null >/dev/null; do sleep 1; done
+#until rostopic list | grep -q '/gazebo'; do sleep 1; done
 
 #Launch waypoint action server
 echo "$(date +'[%Y-%m-%d %T]') Starting waypoint action server..."
 rosrun tortoisebot_waypoints tortoisebot_action_server.py 
 #AS_PID=$!
 
-until rostopic list | grep -q '/tortoisebot_as'; do sleep 1; done
+#until rostopic list | grep -q '/tortoisebot_as'; do sleep 1; done
 
 #Launch waypoint action server tests
 echo "$(date +'[%Y-%m-%d %T]') Starting waypoint action test..."
@@ -49,4 +49,5 @@ set -e
 #done
 
 # --- Exit with the real test result ---
+
 #exit $TEST_RESULT
